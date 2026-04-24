@@ -1,0 +1,37 @@
+export const models = [
+  {
+    id: "villa",
+    title: "Luxury Villa",
+    description: "Spacious 4BHK modern villa with stunning architecture.",
+    file: "/models/villa.glb",
+    thumbnail: "/assets/villa.jpg"
+  },
+  {
+    id: "apartment",
+    title: "Modern Apartment",
+    description: "Urban living space designed for elegance and comfort.",
+    file: "/models/apartment.glb",
+    thumbnail: "/assets/apartment.jpg"
+  },
+  {
+    id: "tower",
+    title: "Skyline Tower",
+    description: "Premium penthouse offering panoramic city views.",
+    file: "/models/tower.glb",
+    thumbnail: "/assets/tower.jpg"
+  },
+  {
+    id: "house-model",
+    title: "Classic House",
+    description: "A beautiful, classic house model perfectly designed for family living.",
+    file: "/models/houseModel.glb",
+    thumbnail: "/assets/hero.jpg" // Fallback until a specific thumbnail is provided
+  },
+  {
+    id: "modern-airport",
+    title: "Modern Airport",
+    description: "An expansive, state-of-the-art modern airport architectural visualization.",
+    file: "/models/modernAirPort.glb",
+    thumbnail: "/assets/hero.jpg" // Fallback until a specific thumbnail is provided
+  }
+];
