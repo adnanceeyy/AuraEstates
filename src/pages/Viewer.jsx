@@ -115,35 +115,80 @@ export default function Viewer() {
         className="w-full h-full"
       >
         {model && (
-          <model-viewer
-            ref={modelRef}
-            src={model.file}
-            ar
-            ar-modes="webxr scene-viewer quick-look"
-            camera-controls
-            auto-rotate
-            shadow-intensity="1"
-            exposure="1"
-            style={{ width: '100%', height: '100%', backgroundColor: '#0B0B0B' }}
-          >
-            <button 
-              slot="ar-button" 
-              className="absolute bottom-[160px] left-1/2 -translate-x-1/2 bg-accent text-background font-bold py-4 px-10 rounded-full shadow-lg shadow-accent/20 text-sm uppercase tracking-[0.2em] whitespace-nowrap w-full max-w-[280px] z-30"
+          <>
+            <model-viewer
+              ref={modelRef}
+              src={`${window.location.origin}${model.file}`}
+              ar
+              ar-modes="webxr scene-viewer quick-look"
+              ar-placement="floor"
+              ar-scale="fixed"
+              camera-controls
+              auto-rotate
+              shadow-intensity="1"
+              shadow-softness="1"
+              exposure="1"
+              style={{ width: '100%', height: '100%', backgroundColor: '#0B0B0B' }}
             >
-              View in Room
-            </button>
+              {/* Native AR button — tap floor to place model */}
+              <button
+                slot="ar-button"
+                style={{
+                  position: 'absolute',
+                  bottom: '175px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  background: '#D4AF37',
+                  color: '#000',
+                  fontWeight: '700',
+                  padding: '16px 40px',
+                  borderRadius: '999px',
+                  border: 'none',
+                  fontSize: '13px',
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  zIndex: 30,
+                  boxShadow: '0 0 20px rgba(212,175,55,0.4)',
+                  minWidth: '200px',
+                }}
+              >
+                📍 View in Room
+              </button>
 
-            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-20 w-full px-6 pointer-events-none">
-              
+              {/* AR hand prompt icon */}
+              <div slot="ar-prompt" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                <img src="https://modelviewer.dev/shared-assets/icons/hand.png" alt="Tap to place" style={{ width: '60px' }} />
+                <span style={{ color: 'white', fontSize: '12px', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', background: 'rgba(0,0,0,0.6)', padding: '4px 12px', borderRadius: '20px', backdropFilter: 'blur(6px)' }}>Tap floor to place</span>
+              </div>
+            </model-viewer>
+
+            {/* Floating Buttons below the AR button */}
+            <div style={{
+              position: 'absolute',
+              bottom: '24px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '12px',
+              width: '100%',
+              padding: '0 24px',
+              zIndex: 20,
+              pointerEvents: 'none',
+            }}>
               <button
                 onClick={(e) => {
                   e.preventDefault();
                   const modelUrl = new URL(model.file, window.location.origin).href;
-                  window.location.href = `/ar-tracker.html?model=${encodeURIComponent(modelUrl)}&scale=0.02`;
+                  window.location.href = `/ar-tracker.html?model=${encodeURIComponent(modelUrl)}&scale=0.05&name=${encodeURIComponent(model.title)}`;
                 }}
-                className="bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold py-3 px-8 rounded-full shadow-lg text-xs uppercase tracking-[0.1em] whitespace-nowrap w-full max-w-[280px] hover:bg-white/20 transition-colors pointer-events-auto"
+                style={{ pointerEvents: 'auto', maxWidth: '280px', width: '100%' }}
+                className="bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold py-3 px-8 rounded-full shadow-lg text-xs uppercase tracking-[0.1em] hover:bg-white/20 transition-colors"
               >
-                View on QR/Marker
+                View on QR / Marker
               </button>
 
               <button
@@ -151,7 +196,8 @@ export default function Viewer() {
                   e.preventDefault();
                   setIsVRModalOpen(true);
                 }}
-                className="bg-black/40 backdrop-blur-md border border-accent/30 text-accent font-bold py-3 px-8 rounded-full shadow-lg text-xs uppercase tracking-[0.1em] whitespace-nowrap w-full max-w-[280px] hover:bg-accent/20 transition-colors flex items-center justify-center gap-2 pointer-events-auto"
+                style={{ pointerEvents: 'auto', maxWidth: '280px', width: '100%' }}
+                className="bg-black/40 backdrop-blur-md border border-accent/30 text-accent font-bold py-3 px-8 rounded-full shadow-lg text-xs uppercase tracking-[0.1em] hover:bg-accent/20 transition-colors flex items-center justify-center gap-2"
               >
                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
@@ -159,10 +205,7 @@ export default function Viewer() {
                 Enter VR
               </button>
             </div>
-            <div id="ar-prompt">
-              <img src="https://modelviewer.dev/shared-assets/icons/hand.png" alt="AR prompt" />
-            </div>
-          </model-viewer>
+          </>
         )}
       </motion.div>
 

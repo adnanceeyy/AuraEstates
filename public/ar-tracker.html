@@ -2,106 +2,223 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>QR Code AR Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AR Marker Viewer — Aura Estates</title>
   <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
   <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      font-family: 'Inter', sans-serif;
-      background-color: #000;
-    }
-    .glass-panel {
-      position: absolute;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { overflow: hidden; font-family: 'Inter', sans-serif; background: #000; }
+
+    /* Clean UI Controls */
+    .ui-overlay {
+      position: fixed;
+      inset: 0;
       z-index: 1000;
-      background: rgba(0, 0, 0, 0.4);
+      pointer-events: none;
+    }
+
+    /* Top bar */
+    .top-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+      pointer-events: all;
+    }
+
+    .brand {
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .brand span { color: #D4AF37; }
+
+    .exit-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-decoration: none;
+      cursor: pointer;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s;
+    }
+    .exit-btn:hover { background: rgba(212,175,55,0.2); border-color: #D4AF37; color: #D4AF37; }
+
+    /* Model Name Badge */
+    .model-badge {
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
       color: white;
-      border-radius: 30px;
-      padding: 10px 20px;
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      white-space: nowrap;
+    }
+
+    /* Bottom Instruction */
+    .bottom-bar {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 30px 24px;
+      display: flex;
+      justify-content: center;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    }
+
+    .status-pill {
       display: flex;
       align-items: center;
       gap: 10px;
-    }
-    #ui-layer {
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 14px;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
       letter-spacing: 1px;
       text-transform: uppercase;
-      white-space: nowrap;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
-    .back-btn {
-      top: 20px;
-      left: 20px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 12px;
-    }
+
     .pulse-dot {
-      width: 8px;
-      height: 8px;
-      background-color: #D4AF37;
+      width: 8px; height: 8px;
+      background: #D4AF37;
       border-radius: 50%;
       animation: pulse 1.5s infinite;
+      flex-shrink: 0;
     }
     @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+      0%   { box-shadow: 0 0 0 0 rgba(212,175,55,0.7); }
+      70%  { box-shadow: 0 0 0 8px rgba(212,175,55,0); }
+      100% { box-shadow: 0 0 0 0 rgba(212,175,55,0); }
     }
+
+    /* Model Detected Banner */
+    #detected-banner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(212,175,55,0.15);
+      border: 1px solid rgba(212,175,55,0.4);
+      color: #D4AF37;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+    }
+    #detected-banner.show { opacity: 1; }
   </style>
 </head>
-<body style="margin : 0px; overflow: hidden;">
-  
-  <a href="/" class="glass-panel back-btn">
-    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-    Exit AR
-  </a>
+<body>
 
-  <div id="ui-layer" class="glass-panel">
-    <div class="pulse-dot"></div>
-    Point at AR Marker
+  <div class="ui-overlay">
+    <div class="top-bar">
+      <a href="/" class="brand">AURA <span>ESTATES</span></a>
+      <a href="/" class="exit-btn">
+        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Exit AR
+      </a>
+    </div>
+
+    <div class="model-badge" id="model-name">Loading...</div>
+    <div id="detected-banner">✦ Found It!</div>
+
+    <div class="bottom-bar">
+      <div class="status-pill">
+        <img src="/assets/aura-marker.png" alt="Point here" style="width:32px;height:32px;border-radius:6px;border:1px solid rgba(212,175,55,0.4);flex-shrink:0;">
+        <div class="pulse-dot"></div>
+        <span>Point camera at the Aura Marker</span>
+      </div>
+    </div>
   </div>
 
-  <!-- AR.js Scene -->
+  <!-- AR.js Scene — Using the Aura Marker for tracking -->
   <a-scene 
+    vr-mode-ui="enabled: false"
     embedded 
-    arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
-    renderer="antialias: true; alpha: true"
+    arjs="sourceType: webcam; debugUIEnabled: false;"
+    renderer="antialias: true; alpha: true; logarithmicDepthBuffer: true;"
   >
-    <!-- We use the default "Hiro" marker for AR.js -->
-    <a-marker preset="hiro">
-      <!-- The 3D model will be injected here -->
+    <!-- We use the hiro preset for stability, but instructions show the branded version -->
+    <a-marker 
+      preset="hiro" 
+      id="hiro-marker"
+      emitevents="true"
+    >
       <a-entity
         id="ar-model"
         position="0 0 0"
-        scale="1 1 1"
         rotation="-90 0 0"
+        scale="0.05 0.05 0.05"
+        animation="property: rotation; to: -90 360 0; loop: true; dur: 20000; easing: linear"
       ></a-entity>
     </a-marker>
+
     <a-entity camera></a-entity>
   </a-scene>
 
   <script>
-    // Extract the model URL from the query string
-    const urlParams = new URLSearchParams(window.location.search);
-    const modelUrl = urlParams.get('model');
-    const scaleParam = urlParams.get('scale') || "0.05"; // Default scale
+    const params = new URLSearchParams(window.location.search);
+    const modelUrl = params.get('model');
+    const modelName = params.get('name') || 'AR Preview';
+    const scaleParam = params.get('scale') || '0.05';
+
+    // Set model name in UI
+    document.getElementById('model-name').textContent = modelName;
 
     if (modelUrl) {
-      const modelEntity = document.getElementById('ar-model');
-      // Set the glTF model
-      modelEntity.setAttribute('gltf-model', modelUrl);
-      // Adjust scale to fit on the marker
-      modelEntity.setAttribute('scale', `${scaleParam} ${scaleParam} ${scaleParam}`);
-    } else {
-      document.getElementById('ui-layer').innerHTML += "<br><span style='color:red;'>No model provided in URL.</span>";
+      const entity = document.getElementById('ar-model');
+      entity.setAttribute('gltf-model', modelUrl);
+      entity.setAttribute('scale', `${scaleParam} ${scaleParam} ${scaleParam}`);
     }
+
+    // Show "Model Detected" banner when marker found
+    const marker = document.getElementById('hiro-marker');
+    const banner = document.getElementById('detected-banner');
+
+    marker.addEventListener('markerFound', () => {
+      banner.classList.add('show');
+    });
+    marker.addEventListener('markerLost', () => {
+      banner.classList.remove('show');
+    });
   </script>
 </body>
 </html>

@@ -9,63 +9,59 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-background">
-      {/* Cinematic Full-Screen 3D Hero */}
+      {/* Hero — Lightweight CSS version (no heavy 3D model on load) */}
       <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
-        {/* Full-screen 3D Background */}
+        {/* Static hero image — fast to load */}
         <div className="absolute inset-0 z-0">
-          <model-viewer
-            src="/models/villa.glb"
-            auto-rotate
-            rotation-per-second="2deg"
-            camera-controls={false}
-            interaction-prompt="none"
-            shadow-intensity="2"
-            exposure="0.7"
-            style={{ width: '100%', height: '100%', backgroundColor: '#050505' }}
-          ></model-viewer>
+          <img
+            src="/assets/villa.jpg"
+            alt="Luxury Estate"
+            className="w-full h-full object-cover"
+            fetchpriority="high"
+          />
         </div>
 
-        {/* Cinematic Overlays */}
-        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/80 via-black/20 to-black/90 pointer-events-none"></div>
-        <div className="absolute inset-0 z-10 bg-[radial-gradient(circle_at_center,_transparent_0%,_#000_100%)] opacity-80 pointer-events-none"></div>
-        
+        {/* Overlays */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/40 to-black/95 pointer-events-none"></div>
+        <div className="absolute inset-0 z-10 bg-[radial-gradient(ellipse_at_top,_rgba(212,175,55,0.08)_0%,_transparent_60%)] pointer-events-none"></div>
+
         {/* Centered Typography */}
         <div className="relative z-20 text-center px-6 max-w-5xl mx-auto flex flex-col items-center mt-20">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
+            transition={{ duration: 0.7 }}
             className="mb-6 flex items-center gap-4"
           >
             <div className="h-[1px] w-16 bg-accent/50"></div>
             <span className="text-accent uppercase tracking-[0.4em] text-xs font-bold">The Pinnacle of Living</span>
             <div className="h-[1px] w-16 bg-accent/50"></div>
           </motion.div>
-          
-          <motion.h1 
-            initial={{ opacity: 0, y: 40, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15 }}
             className="text-6xl md:text-8xl lg:text-[100px] font-serif text-white mb-8 tracking-tighter leading-[0.9]"
           >
             AURA <span className="italic font-light text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#FDE08B]">Estates</span>
           </motion.h1>
-          
-          <motion.p 
-            initial={{ opacity: 0, y: 30 }}
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
+            transition={{ duration: 0.7, delay: 0.3 }}
             className="text-lg md:text-xl text-gray-300 mb-12 max-w-2xl mx-auto font-light leading-relaxed tracking-wide"
           >
             Immerse yourself in the world's most extraordinary properties through cinematic 3D and Virtual Reality.
           </motion.p>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
+            transition={{ duration: 0.7, delay: 0.45 }}
           >
-            <button 
+            <button
               onClick={handleScroll}
               className="group relative overflow-hidden bg-transparent border border-accent/50 text-white font-bold py-4 px-12 rounded-full text-xs uppercase tracking-[0.2em] transition-all hover:border-accent"
             >
@@ -76,22 +72,14 @@ export default function Home() {
         </div>
 
         {/* Scroll Indicator */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 1 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
-        >
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 animate-bounce">
           <span className="text-[10px] text-gray-400 uppercase tracking-widest">Scroll</span>
-          <div className="w-[1px] h-12 bg-white/20 relative overflow-hidden">
-            <motion.div 
-              className="w-full h-1/2 bg-accent absolute top-0"
-              animate={{ y: [0, 48] }}
-              transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
-            />
-          </div>
-        </motion.div>
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" className="text-accent">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
       </section>
+
 
       {/* Editorial Banner */}
       <section className="py-24 relative overflow-hidden bg-[#0a0a0a]">
