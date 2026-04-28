@@ -67,7 +67,7 @@ export default function QRCodes() {
         {/* Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {models.map((model, index) => {
-            const arUrl = `${BASE_URL}/ar-tracker.html?model=${encodeURIComponent(model.file)}&scale=0.5&name=${encodeURIComponent(model.title)}`;
+            const arUrl = `${BASE_URL}/ar-tracker.html?model=${encodeURIComponent(model.file)}&scale=2&name=${encodeURIComponent(model.title)}`;
             const qrUrl = getQRCodeUrl(arUrl, 280);
 
             return (
