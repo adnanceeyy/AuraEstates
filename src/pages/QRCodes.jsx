@@ -67,8 +67,8 @@ export default function QRCodes() {
         {/* Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {models.map((model, index) => {
-            const arUrl = `${BASE_URL}/ar-tracker.html?model=${encodeURIComponent(model.file)}&scale=0.05&name=${encodeURIComponent(model.title)}`;
-            const qrUrl = getQRCodeUrl(arUrl, 220);
+            const arUrl = `${BASE_URL}/ar-tracker.html?model=${encodeURIComponent(model.file)}&scale=0.5&name=${encodeURIComponent(model.title)}`;
+            const qrUrl = getQRCodeUrl(arUrl, 280);
 
             return (
               <motion.div
@@ -79,7 +79,7 @@ export default function QRCodes() {
                 className="bg-[#0e0e0e] border border-white/8 rounded-2xl overflow-hidden hover:border-accent/30 transition-all shadow-2xl"
               >
                 {/* Property Image */}
-                <div className="h-40 relative overflow-hidden">
+                <div className="h-56 relative overflow-hidden">
                   <img src={model.thumbnail} alt={model.title} className="w-full h-full object-cover opacity-70" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0e0e0e] to-transparent"></div>
                   <div className="absolute bottom-3 left-4">
@@ -96,7 +96,7 @@ export default function QRCodes() {
                       <img
                         src={qrUrl}
                         alt={`QR code for ${model.title}`}
-                        className="w-28 h-28 rounded-lg"
+                        className="w-32 h-32 rounded-lg"
                       />
                     </div>
                     <span className="text-[10px] text-gray-500 uppercase tracking-widest">Step 1: Scan</span>
@@ -115,7 +115,7 @@ export default function QRCodes() {
                       <img
                         src={hiroMarkerUrl}
                         alt="Tracking Pattern"
-                        className="w-28 h-28 rounded-lg"
+                        className="w-32 h-32 rounded-lg"
                       />
                     </div>
                     <span className="text-[10px] text-accent uppercase tracking-widest">Step 2: Point at Pattern</span>
