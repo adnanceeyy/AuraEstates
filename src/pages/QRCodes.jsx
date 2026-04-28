@@ -35,7 +35,7 @@ export default function QRCodes() {
           className="text-center mb-6"
         >
           <p className="text-accent text-xs font-bold uppercase tracking-[0.4em] mb-4">Easy AR Experience</p>
-          <h1 className="text-5xl md:text-6xl font-serif text-white mb-5">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif text-white mb-5">
             View in <span className="italic text-accent">Your Space</span>
           </h1>
           <p className="text-gray-400 max-w-xl mx-auto font-light leading-relaxed text-lg">
@@ -67,7 +67,7 @@ export default function QRCodes() {
         {/* Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {models.map((model, index) => {
-            const arUrl = `${BASE_URL}/ar-tracker.html?model=${encodeURIComponent(model.file)}&scale=2&name=${encodeURIComponent(model.title)}`;
+            const arUrl = `${BASE_URL}/ar-tracker.html?model=${encodeURIComponent(model.file)}&scale=5&name=${encodeURIComponent(model.title)}`;
             const qrUrl = getQRCodeUrl(arUrl, 280);
 
             return (

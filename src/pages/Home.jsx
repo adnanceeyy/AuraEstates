@@ -42,7 +42,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15 }}
-            className="text-6xl md:text-8xl lg:text-[100px] font-serif text-white mb-8 tracking-tighter leading-[0.9]"
+            className="text-4xl sm:text-6xl md:text-8xl lg:text-[100px] font-serif text-white mb-8 tracking-tighter leading-[0.9]"
           >
             AURA <span className="italic font-light text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#FDE08B]">Estates</span>
           </motion.h1>

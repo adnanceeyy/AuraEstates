@@ -29,7 +29,7 @@ export default function Services() {
           className="mb-20 text-center"
         >
           <p className="text-accent text-sm font-bold uppercase tracking-[0.3em] mb-4">Our Expertise</p>
-          <h1 className="text-5xl md:text-7xl font-serif text-white mb-6">Bespoke <span className="italic text-gray-500">Services</span></h1>
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-serif text-white mb-6">Bespoke <span className="italic text-gray-500">Services</span></h1>
           <div className="h-[1px] w-24 bg-accent/50 mx-auto"></div>
         </motion.div>
 

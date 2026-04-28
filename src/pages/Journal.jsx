@@ -35,7 +35,7 @@ export default function Journal() {
           className="mb-20 text-center"
         >
           <p className="text-accent text-sm font-bold uppercase tracking-[0.3em] mb-4">Editorial</p>
-          <h1 className="text-5xl md:text-7xl font-serif text-white mb-6">The <span className="italic text-gray-500">Journal</span></h1>
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-serif text-white mb-6">The <span className="italic text-gray-500">Journal</span></h1>
           <div className="h-[1px] w-24 bg-accent/50 mx-auto"></div>
         </motion.div>
 

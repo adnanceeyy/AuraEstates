@@ -44,7 +44,7 @@ export default function PropertyCard({ property, index }) {
 
         <h3 className="text-2xl font-serif text-white mb-2 tracking-wide">{property.title}</h3>
 
-        <p className="text-gray-400 text-sm mb-5 font-light line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <p className="text-gray-400 text-sm mb-5 font-light line-clamp-2 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
           {property.description}
         </p>
 
