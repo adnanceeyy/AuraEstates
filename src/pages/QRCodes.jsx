@@ -6,7 +6,8 @@ function getQRCodeUrl(text, size = 200) {
   return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(text)}&bgcolor=0D0D0D&color=D4AF37&qzone=2&format=png`;
 }
 
-// Luxury Aura Marker served locally from public/assets
+// Tracking pattern used by AR.js (Hiro preset)
+const hiroMarkerUrl = '/assets/hiro-marker.jpg';
 const auraMarkerUrl = '/assets/aura-marker.png';
 
 export default function QRCodes() {
@@ -108,16 +109,16 @@ export default function QRCodes() {
                     </svg>
                   </div>
 
-                  {/* AURA Marker */}
+                  {/* Tracking Marker */}
                   <div className="flex flex-col items-center gap-2 flex-shrink-0">
-                    <div className="p-2 rounded-xl border border-accent/30 bg-white">
+                    <div className="p-2 rounded-xl border border-white/20 bg-white">
                       <img
-                        src={auraMarkerUrl}
-                        alt="Aura Estates Marker"
+                        src={hiroMarkerUrl}
+                        alt="Tracking Pattern"
                         className="w-28 h-28 rounded-lg"
                       />
                     </div>
-                    <span className="text-[10px] text-accent uppercase tracking-widest">Step 2: Point Here</span>
+                    <span className="text-[10px] text-accent uppercase tracking-widest">Step 2: Point at Pattern</span>
                   </div>
                 </div>
 
